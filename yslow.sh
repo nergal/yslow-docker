@@ -9,8 +9,8 @@ export QT_QPA_PLATFORM=offscreen
 PHANTOMJS="phantomjs --ssl-protocol=any --ignore-ssl-errors=yes"
 
 I=0
-for URL in $(echo $URLS | tr "," " "); do
+for URL in $URLS; do
     let I=I+1
     echo "Report $I for $URL creating..."
-    $PHANTOMJS "$(pwd)/yslow.patched.js" -i grade -thrashold "$THRESHOLD" -f junit "$DOMAIN$URL" | grep -v "FAIL to load" > "reports/report$I.xml"
+    $PHANTOMJS "$(pwd)/yslow.patched.js" -i grade -thrashold "$THRESHOLD" -f junit "$DOMAIN$URL" | grep -v "FAIL to load" | sed "s@name=\"YSlow\"@name=\"$URL\"@g" > "reports/report$I.xml"
 done
