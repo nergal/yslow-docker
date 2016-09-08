@@ -1,13 +1,18 @@
 export QT_QPA_PLATFORM=offscreen
 
+define \n
+
+
+endef
+
 DOCKER=sudo docker
 PHANTOMJS=phantomjs --ssl-protocol=any --ignore-ssl-errors=yes
 PWD=$(shell pwd)
+LISTURL=$(subst ${\n}, ,$(URLS))
 
+DOMAIN=https://www.qa.hotwire.com
 ifeq ($(ENV),prod)
-  DOMAIN=https://www.hotwire.com
-else
-	DOMAIN=https://www.qa.hotwire.com
+	override DOMAIN = https://www.hotwire.com
 endif
 
 all: clean build run
@@ -19,7 +24,7 @@ build:
 	$(DOCKER) build -t yslow-docker .
 
 run:
-	$(DOCKER) run -e "ENV=$(ENV)" -e "URLS=$(URLS)" -e "THRESHOLD=$(THRESHOLD)" -v "$(PWD)":/usr/src/app yslow-docker /usr/bin/make yslow
+	$(DOCKER) run -e "ENV=$(ENV)" -e "URLS=$(LISTURL)" -e "THRESHOLD=$(THRESHOLD)" -v $(PWD):/usr/src/app yslow-docker /usr/bin/make yslow
 
 yslow:
 	I=0; \
