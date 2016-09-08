@@ -38,7 +38,7 @@ yslow:
 		I=`expr $$I + 1`; \
 		$(PHANTOMJS) "$(PWD)/yslow.patched.js" \
 			-i grade \
-			-thrashold "$(THRESHOLD)" \
+			-threshold "$(THRESHOLD)" \
 			-f junit "$(DOMAIN)$$URL" | \
 			grep -v "FAIL to load" | \
 			sed "s@name=\"YSlow\"@name=\"$$URL\"@g" > \
