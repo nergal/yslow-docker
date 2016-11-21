@@ -10,11 +10,6 @@ PHANTOMJS=phantomjs --ssl-protocol=any --ignore-ssl-errors=yes
 PWD=$(shell pwd)
 LISTURL=$(subst ${\n}, ,$(URLS))
 
-DOMAIN=https://www.qa.hotwire.com
-ifeq ($(ENV),prod)
-	override DOMAIN = https://www.hotwire.com
-endif
-
 all: clean build run
 
 clean:
